@@ -12,7 +12,7 @@ const TELEGRAM_CHAT_ID = "7955475790";
 const TELEGRAM_BOT_TOKEN = "7604621678:AAE98s3IrekFLs1FFWqGGD6-2AfzbJHmJLw";
 
 // Nomor WhatsApp Admin
-const WHATSAPP_ADMIN = ""; // Ganti dengan nomor WA admin
+const WHATSAPP_ADMIN = "+1 (343) 309-5182"; // Ganti dengan nomor WA admin
 
 // 🔄 Update saldo spin di UI & simpan ke localStorage
 function updateSaldo() {
