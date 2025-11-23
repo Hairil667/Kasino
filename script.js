@@ -8,8 +8,8 @@ let kodeAktif = JSON.parse(localStorage.getItem("kodeAktif")) || {};
 let userIP = localStorage.getItem("userIP") || null;
 
 // ID Telegram Admin & Token Bot
-const TELEGRAM_CHAT_ID = "7955475790";
-const TELEGRAM_BOT_TOKEN = "7604621678:AAE98s3IrekFLs1FFWqGGD6-2AfzbJHmJLw";
+const TELEGRAM_CHAT_ID = "8534735068";
+const TELEGRAM_BOT_TOKEN = "8203866651:AAHxjRsvbEW3thei3cYVNHqyjavEs7fNSY0";
 
 // Nomor WhatsApp Admin
 const WHATSAPP_ADMIN = "85939797240"; // Ganti dengan nomor WA admin
