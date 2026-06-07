@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Berlin — Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #f5f0e8;
+      --card:    #fdfaf4;
+      --ink:     #1a1410;
+      --ink2:    #4a4035;
+      --faint:   #c8bfad;
+      --border:  #d4c8b0;
+      --accent:  #b85c2a;
+      --accent2: #2a5c8f;
+      --accent3: #3a7a4a;
+      --accent4: #7a3a7a;
+      --stamp:   #8b3a1e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(184,92,42,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(42,92,143,0.05) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a0906a' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      font-family: 'IBM Plex Sans', sans-serif;
+      padding: 32px 16px;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(620px, 96vw);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 0 #fff inset, 4px 4px 0 var(--faint), 8px 8px 0 rgba(0,0,0,0.05);
+      padding: 40px 44px 36px;
+      animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOP RULE ── */
+    .top-rule { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+    .rule-line { flex: 1; height: 1px; background: var(--border); }
+    .rule-diamond { width: 8px; height: 8px; background: var(--accent); transform: rotate(45deg); flex-shrink: 0; }
+    .rule-text { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--faint); text-transform: uppercase; }
+
+    /* ── HEADER ── */
+    .header { display: flex; gap: 28px; align-items: flex-start; margin-bottom: 32px; }
+    .avatar-col { flex-shrink: 0; }
+    .avatar-frame { width: 108px; height: 108px; border: 1px solid var(--border); position: relative; background: #ede8df; overflow: hidden; }
+    .avatar-frame::before, .avatar-frame::after { content: ''; position: absolute; width: 14px; height: 14px; border-color: var(--accent); border-style: solid; z-index: 2; }
+    .avatar-frame::before { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
+    .avatar-frame::after  { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+    .avatar-inner { width: 100%; height: 100%; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+    .avatar-inner svg { display: block; }
+    .avatar-number { position: absolute; bottom: 0; left: 0; right: 0; background: var(--accent); font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: #fff; text-align: center; padding: 3px 0; }
+    .name-col { flex: 1; padding-top: 4px; }
+    .pre-name { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+    .name { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--ink); line-height: 1; margin-bottom: 4px; letter-spacing: -0.5px; }
+    .name em { font-style: italic; color: var(--accent); }
+    .tagline { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--faint); letter-spacing: 2px; margin-bottom: 16px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; border: 1px solid; }
+    .chip.outline-ink    { border-color: var(--ink); color: var(--ink); }
+    .chip.outline-accent { border-color: var(--accent); color: var(--accent); }
+    .chip.outline-blue   { border-color: var(--accent2); color: var(--accent2); }
+    .chip.outline-green  { border-color: var(--accent3); color: var(--accent3); }
+    .chip.outline-purple { border-color: var(--accent4); color: var(--accent4); }
+    .chip.filled-accent  { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .chip.filled-blue    { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+
+    /* ── SECTION DIVIDER ── */
+    .sec-divider { display: flex; align-items: center; gap: 12px; margin: 26px 0 18px; }
+    .sec-divider .l { flex: 1; height: 1px; background: var(--border); }
+    .sec-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--ink2); text-transform: uppercase; }
+
+    /* ── INFO GRID ── */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+    .info-item { border-left: 2px solid var(--border); padding-left: 12px; }
+    .info-item.accent-l { border-color: var(--accent); }
+    .info-item.blue-l   { border-color: var(--accent2); }
+    .info-item.green-l  { border-color: var(--accent3); }
+    .info-item.purple-l { border-color: var(--accent4); }
+    .info-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--faint); margin-bottom: 3px; }
+    .info-val { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; }
+
+    /* ── STATS ── */
+    .stats-row { display: flex; border: 1px solid var(--border); margin-top: 4px; }
+    .stat-cell { flex: 1; padding: 14px 12px; border-right: 1px solid var(--border); }
+    .stat-cell:last-child { border-right: none; }
+    .stat-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--faint); margin-bottom: 6px; }
+    .stat-bar-track { height: 3px; background: var(--border); margin-bottom: 6px; overflow: hidden; }
+    .stat-bar-fill { height: 100%; width: 0; transition: width 1.2s cubic-bezier(0.22,1,0.36,1); }
+    .stat-bar-fill.a { background: var(--accent); }
+    .stat-bar-fill.b { background: var(--accent2); }
+    .stat-bar-fill.c { background: var(--ink); }
+    .stat-bar-fill.d { background: var(--accent3); }
+    .stat-bar-fill.e { background: var(--accent4); }
+    .stat-pct { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 500; color: var(--ink); line-height: 1; }
+    .stat-pct span { font-size: 10px; color: var(--faint); font-weight: 300; }
+
+    /* ── SKILLS ── */
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .skill-tag { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; padding: 4px 10px; background: rgba(42,92,143,0.07); border: 1px solid rgba(42,92,143,0.2); color: var(--accent2); }
+    .skill-tag.green { background: rgba(58,122,74,0.07); border-color: rgba(58,122,74,0.25); color: var(--accent3); }
+    .skill-tag.orange { background: rgba(184,92,42,0.07); border-color: rgba(184,92,42,0.25); color: var(--accent); }
+
+    /* ── GAME LIST ── */
+    .game-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .game-item { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid var(--border); background: rgba(184,92,42,0.02); }
+    .game-dot { width: 6px; height: 6px; background: var(--accent); transform: rotate(45deg); flex-shrink: 0; }
+    .game-name { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink); }
+    .game-badge { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 8px; padding: 2px 6px; border: 1px solid; white-space: nowrap; }
+    .game-badge.rank-a { color: var(--accent); border-color: var(--accent); }
+    .game-badge.rank-b { color: var(--accent2); border-color: var(--accent2); }
+    .game-badge.rank-c { color: var(--accent3); border-color: var(--accent3); }
+
+    /* ── TIMELINE (Riwayat Pendidikan) ── */
+    .timeline { position: relative; padding-left: 20px; display: flex; flex-direction: column; gap: 18px; }
+    .timeline::before { content: ''; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 1px; background: var(--border); }
+    .tl-item { position: relative; }
+    .tl-dot { position: absolute; left: -20px; top: 4px; width: 9px; height: 9px; border: 2px solid var(--accent); background: var(--card); }
+    .tl-dot.filled { background: var(--accent); }
+    .tl-dot.blue { border-color: var(--accent2); background: var(--accent2); }
+    .tl-dot.green { border-color: var(--accent3); background: var(--accent3); }
+    .tl-year { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--faint); margin-bottom: 2px; }
+    .tl-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink); }
+    .tl-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink2); margin-top: 1px; }
+    .tl-note { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; color: var(--faint); margin-top: 3px; font-style: italic; }
+
+    /* ── ORGANISASI / PENGALAMAN ── */
+    .org-list { display: flex; flex-direction: column; gap: 10px; }
+    .org-item { display: flex; gap: 14px; align-items: flex-start; padding: 12px; border: 1px solid var(--border); }
+    .org-year-col { flex-shrink: 0; }
+    .org-year { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--faint); white-space: nowrap; }
+    .org-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+    .org-role { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent2); }
+    .org-desc { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; color: var(--ink2); margin-top: 4px; line-height: 1.5; }
+
+    /* ── PROYEK ── */
+    .proj-list { display: flex; flex-direction: column; gap: 10px; }
+    .proj-item { padding: 14px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+    .proj-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+    .proj-item.p-a::before { background: var(--accent); }
+    .proj-item.p-b::before { background: var(--accent2); }
+    .proj-item.p-c::before { background: var(--accent3); }
+    .proj-item.p-d::before { background: var(--accent4); }
+    .proj-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+    .proj-name { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink); }
+    .proj-status { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1.5px; padding: 2px 7px; border: 1px solid; flex-shrink: 0; }
+    .proj-status.done { color: var(--accent3); border-color: var(--accent3); }
+    .proj-status.ongoing { color: var(--accent); border-color: var(--accent); }
+    .proj-status.plan { color: var(--faint); border-color: var(--faint); }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+    .proj-tag { font-family: 'IBM Plex Mono', monospace; font-size: 8px; padding: 2px 6px; background: rgba(0,0,0,0.04); border: 1px solid var(--border); color: var(--ink2); }
+    .proj-desc { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; color: var(--ink2); line-height: 1.55; }
+
+    /* ── FAVORIT ── */
+    .fav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .fav-card { border: 1px solid var(--border); padding: 12px 14px; }
+    .fav-cat { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+    .fav-list-items { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .fav-list-items li { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--ink); display: flex; align-items: center; gap: 7px; }
+    .fav-list-items li::before { content: ''; width: 4px; height: 4px; background: var(--accent); transform: rotate(45deg); flex-shrink: 0; }
+    .fav-list-items li span { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--faint); margin-left: auto; }
+
+    /* ── JADWAL HARIAN ── */
+    .schedule-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); }
+    .sched-row { display: flex; align-items: center; gap: 0; border-bottom: 1px solid var(--border); }
+    .sched-row:last-child { border-bottom: none; }
+    .sched-time { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); padding: 9px 14px; border-right: 1px solid var(--border); width: 80px; flex-shrink: 0; background: rgba(184,92,42,0.03); }
+    .sched-act { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--ink); padding: 9px 14px; flex: 1; }
+    .sched-emoji { padding: 9px 12px 9px 0; font-size: 14px; }
+
+    /* ── BUCKET LIST ── */
+    .bucket-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .bucket-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); }
+    .bucket-check { width: 16px; height: 16px; border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; }
+    .bucket-check.done { border-color: var(--accent3); background: var(--accent3); }
+    .bucket-check.done::after { content: '✓'; color: #fff; font-size: 9px; line-height: 1; }
+    .bucket-text { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; color: var(--ink); line-height: 1.45; }
+    .bucket-text.crossed { color: var(--faint); text-decoration: line-through; }
+
+    /* ── FAKTA UNIK ── */
+    .facts-list { display: flex; flex-direction: column; gap: 8px; }
+    .fact-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 14px; background: rgba(0,0,0,0.02); border-left: 2px solid var(--border); }
+    .fact-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 500; flex-shrink: 0; width: 20px; }
+    .fact-text { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--ink2); line-height: 1.55; }
+
+    /* ── PERSONALITY DOTS ── */
+    .personality-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .pers-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .pers-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--ink2); white-space: nowrap; }
+    .pers-dots { display: flex; gap: 3px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--border); background: transparent; }
+    .dot.filled-a { background: var(--accent); border-color: var(--accent); }
+    .dot.filled-b { background: var(--accent2); border-color: var(--accent2); }
+    .dot.filled-c { background: var(--accent3); border-color: var(--accent3); }
+    .dot.filled-d { background: var(--accent4); border-color: var(--accent4); }
+
+    /* ── CONTACT ROW ── */
+    .contact-row { display: grid; grid-template-columns: 1fr 1fr 1fr; border: 1px solid var(--border); margin-top: 4px; }
+    .contact-cell { padding: 12px 14px; border-right: 1px solid var(--border); }
+    .contact-cell:last-child { border-right: none; }
+    .contact-key { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
+    .contact-val { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink); word-break: break-all; }
+
+    /* ── QUOTE BLOCK ── */
+    .quote-block { border-left: 3px solid var(--accent); padding: 10px 16px; background: rgba(184,92,42,0.04); }
+    .quote-text { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 14px; color: var(--ink2); line-height: 1.6; }
+    .quote-attr { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--faint); margin-top: 6px; }
+
+    /* ── GOAL STRIP ── */
+    .goal-strip { background: var(--ink); color: #fff; padding: 13px 18px; display: flex; align-items: center; gap: 16px; }
+    .goal-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 3px; color: var(--faint); text-transform: uppercase; white-space: nowrap; }
+    .goal-text { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 13px; color: #fdfaf4; flex: 1; line-height: 1.45; }
+
+    /* ── MBTI BOX ── */
+    .mbti-box { display: grid; grid-template-columns: auto 1fr; gap: 0; border: 1px solid var(--border); overflow: hidden; }
+    .mbti-letters { background: var(--ink); padding: 20px 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .mbti-big { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--accent); line-height: 1; letter-spacing: 4px; }
+    .mbti-sub { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--faint); margin-top: 4px; text-transform: uppercase; }
+    .mbti-detail { padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
+    .mbti-trait { display: flex; flex-direction: column; gap: 3px; }
+    .mbti-trait-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--faint); text-transform: uppercase; }
+    .mbti-trait-bar { height: 2px; background: var(--border); overflow: hidden; }
+    .mbti-trait-fill { height: 100%; }
+    .mbti-trait-fill.i { background: var(--accent); width: 78%; }
+    .mbti-trait-fill.n { background: var(--accent2); width: 65%; }
+    .mbti-trait-fill.f { background: var(--accent4); width: 58%; }
+    .mbti-trait-fill.j { background: var(--accent3); width: 72%; }
+
+    /* ── HARAPAN HIDUP ── */
+    .hope-grid { display: flex; flex-direction: column; gap: 8px; }
+    .hope-item { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border: 1px solid var(--border); }
+    .hope-num { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--border); font-style: italic; flex-shrink: 0; width: 28px; line-height: 1; }
+    .hope-text { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--ink); line-height: 1.5; flex: 1; }
+    .hope-tag { font-family: 'IBM Plex Mono', monospace; font-size: 8px; letter-spacing: 1px; padding: 2px 7px; background: rgba(184,92,42,0.08); color: var(--accent); border: 1px solid rgba(184,92,42,0.2); white-space: nowrap; }
+
+    /* ── FOOTER ── */
+    .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--border); }
+    .footer-id { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--faint); }
+    .stamp { width: 62px; height: 62px; border: 2px solid var(--stamp); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-12deg); opacity: 0.55; gap: 1px; position: relative; }
+    .stamp::before { content: ''; position: absolute; inset: 3px; border: 1px solid var(--stamp); border-radius: 50%; }
+    .stamp-top { font-family: 'IBM Plex Mono', monospace; font-size: 6px; letter-spacing: 2px; color: var(--stamp); text-transform: uppercase; }
+    .stamp-year { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--stamp); line-height: 1; }
+    .stamp-bot { font-family: 'IBM Plex Mono', monospace; font-size: 5px; letter-spacing: 1.5px; color: var(--stamp); text-transform: uppercase; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .card { padding: 24px 18px 24px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .game-list { grid-template-columns: 1fr; }
+      .fav-grid { grid-template-columns: 1fr; }
+      .bucket-list { grid-template-columns: 1fr; }
+      .personality-grid { grid-template-columns: 1fr; }
+      .contact-row { grid-template-columns: 1fr; }
+      .contact-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .contact-cell:last-child { border-bottom: none; }
+      .mbti-box { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <!-- TOP RULE -->
+  <div class="top-rule">
+    <div class="rule-line"></div><div class="rule-diamond"></div>
+    <div class="rule-text">kartu intro</div>
+    <div class="rule-diamond"></div><div class="rule-line"></div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="avatar-col">
+      <div class="avatar-frame">
+        <div class="avatar-inner">
+          <svg width="108" height="108" viewBox="0 0 108 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="108" height="108" fill="#e8e0d4"/>
+            <rect x="18" y="72" width="72" height="50" rx="4" fill="#2a3a52"/>
+            <polygon points="54,72 46,88 54,84 62,88" fill="#1a2a3a"/>
+            <rect x="47" y="62" width="14" height="14" rx="2" fill="#c8956a"/>
+            <ellipse cx="54" cy="50" rx="22" ry="24" fill="#c8956a"/>
+            <path d="M32 44 Q33 24 54 22 Q75 24 76 44 Q72 28 54 26 Q36 28 32 44Z" fill="#1a1410"/>
+            <ellipse cx="32" cy="51" rx="4" ry="5" fill="#b87a50"/>
+            <ellipse cx="76" cy="51" rx="4" ry="5" fill="#b87a50"/>
+            <ellipse cx="44" cy="50" rx="4" ry="4.5" fill="#fff"/>
+            <circle cx="45" cy="50" r="2.5" fill="#2a1a0a"/>
+            <circle cx="46" cy="49" r="0.8" fill="#fff"/>
+            <ellipse cx="64" cy="50" rx="4" ry="4.5" fill="#fff"/>
+            <circle cx="65" cy="50" r="2.5" fill="#2a1a0a"/>
+            <circle cx="66" cy="49" r="0.8" fill="#fff"/>
+            <path d="M40 44 Q44 42 48 43" stroke="#1a1410" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M60 43 Q64 42 68 44" stroke="#1a1410" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M52 54 Q54 58 56 54" stroke="#a06040" stroke-width="1" stroke-linecap="round" fill="none"/>
+            <path d="M48 62 Q54 66 60 62" stroke="#a06040" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <line x1="54" y1="84" x2="54" y2="108" stroke="#1a2a3a" stroke-width="1" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="avatar-number">berlin</div>
+      </div>
+    </div>
+    <div class="name-col">
+      <div class="pre-name">kartu intro</div>
+      <div class="name">Berl<em>in</em></div>
+      <div class="tagline">— informatika · mataram · NTB —</div>
+      <div class="chips">
+        <span class="chip outline-ink">Laki-laki</span>
+        <span class="chip outline-ink">20 Tahun</span>
+        <span class="chip outline-accent">Gamer</span>
+        <span class="chip outline-blue">Mahasiswa</span>
+        <span class="chip outline-purple">Night Owl</span>
+        <span class="chip filled-accent">INFJ</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 1. INFORMASI PRIBADI ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Informasi Pribadi</div><div class="l"></div></div>
+  <div class="info-grid">
+    <div class="info-item accent-l">
+      <div class="info-key">Nama Lengkap</div>
+      <div class="info-val">Berlin</div>
+    </div>
+    <div class="info-item blue-l">
+      <div class="info-key">Tanggal Lahir</div>
+      <div class="info-val">20 Agustus 2004</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Tempat Lahir</div>
+      <div class="info-val">Lombok Barat, NTB</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Domisili</div>
+      <div class="info-val">Mataram, NTB</div>
+    </div>
+    <div class="info-item green-l">
+      <div class="info-key">Agama</div>
+      <div class="info-val">Islam</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Golongan Darah</div>
+      <div class="info-val">O</div>
+    </div>
+    <div class="info-item accent-l">
+      <div class="info-key">Tinggi / Berat</div>
+      <div class="info-val">170 cm / 60 kg</div>
+    </div>
+    <div class="info-item blue-l">
+      <div class="info-key">Status</div>
+      <div class="info-val">Mahasiswa</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Bahasa</div>
+      <div class="info-val">Indonesia · Sasak</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Motto Hidup</div>
+      <div class="info-val">"Fortes Fortuna Adiuvat"</div>
+    </div>
+  </div>
+
+  <!-- ══ 2. AKADEMIK ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Akademik</div><div class="l"></div></div>
+  <div class="info-grid">
+    <div class="info-item accent-l">
+      <div class="info-key">Universitas</div>
+      <div class="info-val">Universitas Mataram (UNRAM)</div>
+    </div>
+    <div class="info-item blue-l">
+      <div class="info-key">Jurusan</div>
+      <div class="info-val">Teknik Informatika</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Fakultas</div>
+      <div class="info-val">Teknik</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Angkatan</div>
+      <div class="info-val">2023</div>
+    </div>
+    <div class="info-item">
+      <div class="info-key">Mata Kuliah Fav</div>
+      <div class="info-val">Pemrograman Web · Algoritma</div>
+    </div>
+  </div>
+
+  <!-- ══ 3. RIWAYAT PENDIDIKAN ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Riwayat Pendidikan</div><div class="l"></div></div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot blue"></div>
+      <div class="tl-year">2023 — Sekarang</div>
+      <div class="tl-title">S1 Teknik Informatika — Universitas Mataram</div>
+      <div class="tl-sub">Fakultas Teknik </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot filled"></div>
+      <div class="tl-year">2020 — 2023</div>
+      <div class="tl-title">man lombok barat</div>
+      <div class="tl-sub">IPA · Lombok Barat, NTB</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot green"></div>
+      <div class="tl-year">2017 — 2020</div>
+      <div class="tl-title">SMP Negeri 6 
+      Gerung</div>
+      <div class="tl-sub">Lombok Barat, NTB</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2011 — 2017</div>
+      <div class="tl-title">SD Negeri
+      3 Gerung</div>
+      <div class="tl-sub">Lombok Barat, NTB</div>
+    </div>
+  </div>
+
+  <!-- ══ 4. KEAHLIAN TEKNIS ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Keahlian Teknis</div><div class="l"></div></div>
+  <div style="margin-bottom: 10px;">
+    <div class="info-key" style="margin-bottom: 7px; padding-left: 0;">Bahasa Pemrograman</div>
+    <div class="skills-wrap">
+      <span class="skill-tag orange">Python</span>
+      <span class="skill-tag orange">C</span>
+      <span class="skill-tag orange">C++</span>
+      <span class="skill-tag orange">JavaScript</span>
+      <span class="skill-tag orange">PHP</span>
+    </div>
+  </div>
+  <div style="margin-bottom: 10px;">
+    <div class="info-key" style="margin-bottom: 7px; padding-left: 0;">Web & Framework</div>
+    <div class="skills-wrap">
+      <span class="skill-tag">HTML5</span>
+      <span class="skill-tag">CSS3</span>
+      <span class="skill-tag">Bootstrap</span>
+      <span class="skill-tag">Laravel</span>
+      <span class="skill-tag">React (basic)</span>
+    </div>
+  </div>
+  <div style="margin-bottom: 10px;">
+    <div class="info-key" style="margin-bottom: 7px; padding-left: 0;">Tools & Lainnya</div>
+    <div class="skills-wrap">
+      <span class="skill-tag green">Git & GitHub</span>
+      <span class="skill-tag green">Linux (Ubuntu)</span>
+      <span class="skill-tag green">MySQL</span>
+      <span class="skill-tag green">VS Code</span>
+      <span class="skill-tag green">Figma</span>
+      <span class="skill-tag green">Canva</span>
+    </div>
+  </div>
+
+  <!-- ══ 5. STATISTIK SKILL ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Statistik Kemampuan</div><div class="l"></div></div>
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-key">Gaming</div>
+      <div class="stat-bar-track"><div class="stat-bar-fill a" data-pct="92"></div></div>
+      <div class="stat-pct">92<span>%</span></div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-key">Coding</div>
+      <div class="stat-bar-track"><div class="stat-bar-fill b" data-pct="88"></div></div>
+      <div class="stat-pct">88<span>%</span></div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-key">Teamwork</div>
+      <div class="stat-bar-track"><div class="stat-bar-fill c" data-pct="82"></div></div>
+      <div class="stat-pct">82<span>%</span></div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-key">Desain</div>
+      <div class="stat-bar-track"><div class="stat-bar-fill d" data-pct="70"></div></div>
+      <div class="stat-pct">70<span>%</span></div>
+    </div>
+  </div>
+
+  <!-- ══ 6. ORGANISASI & PENGALAMAN ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Organisasi & Pengalaman</div><div class="l"></div></div>
+  <div class="org-list">
+    <div class="org-item">
+      <div class="org-year-col"><div class="org-year">2024</div></div>
+      <div>
+        <div class="org-title">Himpunan Mahasiswa Teknik Informatika (HMTI) UNRAM</div>
+        <div class="org-role">Anggota</div>
+        <div class="org-desc">Membantu pengembangan website internal himpunan dan dokumentasi kegiatan.</div>
+      </div>
+    </div>
+    <div class="org-item">
+      <div class="org-year-col"><div class="org-year">2023</div></div>
+      <div>
+        <div class="org-title">Kelompok Belajar Algoritma — UNRAM</div>
+        <div class="org-role">Anggota</div>
+        <div class="org-desc">Mengadakan sesi belajar bersama mingguan untuk persiapan kompetisi pemrograman.</div>
+      </div>
+    </div>
+    <div class="org-item">
+      <div class="org-year-col"><div class="org-year">2022</div></div>
+      <div>
+        <div class="org-title">OSIS man lombok barat</div>
+        <div class="org-role">Anggota</div>
+        <div class="org-desc">Mengelola administrasi dan dokumentasi kegiatan sekolah selama satu periode.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 7. PROYEK ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Proyek</div><div class="l"></div></div>
+  <div class="proj-list">
+    <div class="proj-item p-b">
+      <div class="proj-header">
+        <div class="proj-name">Sistem Informasi Perpustakaan Sekolah</div>
+        <span class="proj-status done">Selesai</span>
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tag">PHP</span><span class="proj-tag">Laravel</span><span class="proj-tag">MySQL</span><span class="proj-tag">Bootstrap</span>
+      </div>
+      <div class="proj-desc">Aplikasi manajemen peminjaman buku berbasis web untuk SMA, dilengkapi dashboard admin, laporan, dan notifikasi jatuh tempo.</div>
+    </div>
+    <div class="proj-item p-a">
+      <div class="proj-header">
+        <div class="proj-name">Game Quiz Edukasi (Python CLI)</div>
+        <span class="proj-status done">Selesai</span>
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tag">Python</span><span class="proj-tag">OOP</span><span class="proj-tag">JSON</span>
+      </div>
+      <div class="proj-desc">Game kuis berbasis terminal dengan sistem skor, leaderboard, dan kategori soal pilihan ganda untuk mata kuliah pemrograman.</div>
+    </div>
+    <div class="proj-item p-c">
+      <div class="proj-header">
+        <div class="proj-name">Portfolio Website Personal</div>
+        <span class="proj-status ongoing">Berjalan</span>
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">JavaScript</span>
+      </div>
+      <div class="proj-desc">Website portofolio pribadi untuk menampilkan proyek, kemampuan, dan kontak. Didesain responsif untuk semua perangkat.</div>
+    </div>
+    <div class="proj-item p-d">
+      <div class="proj-header">
+        <div class="proj-name">Aplikasi Catatan Kuliah (Mobile)</div>
+        <span class="proj-status plan">Direncanakan</span>
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tag">React Native</span><span class="proj-tag">SQLite</span>
+      </div>
+      <div class="proj-desc">Rencana aplikasi pencatatan kuliah dengan fitur pengingat jadwal, to-do list tugas, dan sinkronisasi antar perangkat.</div>
+    </div>
+  </div>
+
+  <!-- ══ 8. KEPRIBADIAN & MBTI ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Kepribadian</div><div class="l"></div></div>
+  <div class="mbti-box">
+    <div class="mbti-letters">
+      <div class="mbti-big">INFJ</div>
+      <div class="mbti-sub">Advokat</div>
+    </div>
+    <div class="mbti-detail">
+      <div class="mbti-trait">
+        <div class="mbti-trait-label">Introvert — 78%</div>
+        <div class="mbti-trait-bar"><div class="mbti-trait-fill i"></div></div>
+      </div>
+      <div class="mbti-trait">
+        <div class="mbti-trait-label">Intuitive — 65%</div>
+        <div class="mbti-trait-bar"><div class="mbti-trait-fill n"></div></div>
+      </div>
+      <div class="mbti-trait">
+        <div class="mbti-trait-label">Feeling — 58%</div>
+        <div class="mbti-trait-bar"><div class="mbti-trait-fill f"></div></div>
+      </div>
+      <div class="mbti-trait">
+        <div class="mbti-trait-label">Judging — 72%</div>
+        <div class="mbti-trait-bar"><div class="mbti-trait-fill j"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 14px;">
+    <div class="personality-grid">
+      <div class="pers-item">
+        <div class="pers-label">Kreatif</div>
+        <div class="pers-dots">
+          <div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="pers-item">
+        <div class="pers-label">Ambisius</div>
+        <div class="pers-dots">
+          <div class="dot filled-b"></div><div class="dot filled-b"></div><div class="dot filled-b"></div><div class="dot filled-b"></div><div class="dot filled-b"></div>
+        </div>
+      </div>
+      <div class="pers-item">
+        <div class="pers-label">Teliti</div>
+        <div class="pers-dots">
+          <div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="pers-item">
+        <div class="pers-label">Komunikatif</div>
+        <div class="pers-dots">
+          <div class="dot filled-c"></div><div class="dot filled-c"></div><div class="dot filled-c"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="pers-item">
+        <div class="pers-label">Disiplin</div>
+        <div class="pers-dots">
+          <div class="dot filled-b"></div><div class="dot filled-b"></div><div class="dot filled-b"></div><div class="dot filled-b"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="pers-item">
+        <div class="pers-label">Problem Solver</div>
+        <div class="pers-dots">
+          <div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot filled-a"></div><div class="dot filled-a"></div>
+        </div>
+      </div>
+      <div class="pers-item">
+        <div class="pers-label">Perfeksionis</div>
+        <div class="pers-dots">
+          <div class="dot filled-d"></div><div class="dot filled-d"></div><div class="dot filled-d"></div><div class="dot filled-d"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="pers-item">
+        <div class="pers-label">Empati</div>
+        <div class="pers-dots">
+          <div class="dot filled-c"></div><div class="dot filled-c"></div><div class="dot filled-c"></div><div class="dot filled-c"></div><div class="dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 9. FAVORIT GAME ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Favorit Game</div><div class="l"></div></div>
+  <div class="game-list">
+    <div class="game-item">
+      <div class="game-dot"></div>
+      <div class="game-name">Mobile Legends</div>
+      <div class="game-badge rank-a">Mythic ★</div>
+    </div>
+    <div class="game-item">
+      <div class="game-dot"></div>
+      <div class="game-name">Valorant</div>
+      <div class="game-badge rank-b">Platinum II</div>
+    </div>
+    <div class="game-item">
+      <div class="game-dot"></div>
+      <div class="game-name">Genshin Impact</div>
+      <div class="game-badge rank-c">AR 58</div>
+    </div>
+    <div class="game-item">
+      <div class="game-dot"></div>
+      <div class="game-name">Minecraft</div>
+      <div class="game-badge rank-a">Survival</div>
+    </div>
+    <div class="game-item">
+      <div class="game-dot"></div>
+      <div class="game-name">Honkai: Star Rail</div>
+      <div class="game-badge rank-b">TL 60</div>
+    </div>
+    <div class="game-item">
+      <div class="game-dot"></div>
+      <div class="game-name">PUBG Mobile</div>
+      <div class="game-badge rank-c">Ace</div>
+    </div>
+  </div>
+
+  <!-- ══ 10. FAVORIT LAINNYA ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Selera & Favorit</div><div class="l"></div></div>
+  <div class="fav-grid">
+    <div class="fav-card">
+      <div class="fav-cat">Musik Favorit</div>
+      <ul class="fav-list-items">
+        <li>Hindia <span>Indie Pop</span></li>
+        <li>Reality Club <span>Indie</span></li>
+        <li>Lomba Sihir <span>Alt Pop</span></li>
+        <li>Keshi <span>R&B</span></li>
+        <li>Tulus <span>Pop</span></li>
+      </ul>
+    </div>
+    <div class="fav-card">
+      <div class="fav-cat">Makanan Favorit</div>
+      <ul class="fav-list-items">
+        <li>Plecing Kangkung <span>NTB</span></li>
+        <li>Ayam Taliwang <span>Lombok</span></li>
+        <li>Indomie Goreng <span>🍜</span></li>
+        <li>Bakso <span>Warung</span></li>
+        <li>Es Campur <span>Minuman</span></li>
+      </ul>
+    </div>
+    <div class="fav-card">
+      <div class="fav-cat">Anime / Series</div>
+      <ul class="fav-list-items">
+        <li>Vinland Saga<span>Action</span></li>
+        <li>Dr. Stone<span>Sci-Fi</span></li>
+        <li>Overlord<span>Dark Fantasy</span></li>
+      </ul>
+    </div>
+    <div class="fav-card">
+      <div class="fav-cat">Konten / Channel</div>
+      <ul class="fav-list-items">
+        <li>Fireship <span>YouTube</span></li>
+        <li>Programmer Zaman Now <span>YT</span></li>
+        <li>Buildwithangga <span>Tutorial</span></li>
+        <li>Lex Clips <span>Podcast</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ 11. JADWAL HARIAN ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Jadwal Harian Tipikal</div><div class="l"></div></div>
+  <div class="schedule-list">
+    <div class="sched-row">
+      <div class="sched-time">06.00</div>
+      <div class="sched-act">Bangun, sholat Subuh, sarapan ringan</div>
+      <div class="sched-emoji">🌅</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">07.30</div>
+      <div class="sched-act">Berangkat ke kampus / persiapan kuliah online</div>
+      <div class="sched-emoji">🎒</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">08.00</div>
+      <div class="sched-act">Kuliah & belajar (hingga siang)</div>
+      <div class="sched-emoji">📚</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">13.00</div>
+      <div class="sched-act">Istirahat, makan siang, sholat Dzuhur</div>
+      <div class="sched-emoji">🍽️</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">15.00</div>
+      <div class="sched-act">Ngerjain tugas / coding proyek pribadi</div>
+      <div class="sched-emoji">💻</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">18.00</div>
+      <div class="sched-act">Sholat Maghrib, makan malam, santai</div>
+      <div class="sched-emoji">🌙</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">20.00</div>
+      <div class="sched-act">Main game / nonton anime / ngobrol teman</div>
+      <div class="sched-emoji">🎮</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">23.00</div>
+      <div class="sched-act">Coding malam (peak productivity) ☕</div>
+      <div class="sched-emoji">🌃</div>
+    </div>
+    <div class="sched-row">
+      <div class="sched-time">01.00</div>
+      <div class="sched-act">Tidur (Night owl sejati)</div>
+      <div class="sched-emoji">😴</div>
+    </div>
+  </div>
+
+  <!-- ══ 12. BUCKET LIST ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Bucket List</div><div class="l"></div></div>
+  <div class="bucket-list">
+    <div class="bucket-item">
+      <div class="bucket-check done"></div>
+      <div class="bucket-text crossed">Masuk jurusan Teknik Informatika</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check done"></div>
+      <div class="bucket-text crossed">Buat proyek web pertama</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check done"></div>
+      <div class="bucket-text crossed">Reach Mythic di Mobile Legends</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check"></div>
+      <div class="bucket-text">Lulus dengan IPK ≥ 3.80</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check"></div>
+      <div class="bucket-text">Ikut hackathon nasional</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check"></div>
+      <div class="bucket-text">Magang di perusahaan teknologi</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check"></div>
+      <div class="bucket-text">Punya 1.000 followers GitHub</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check"></div>
+      <div class="bucket-text">Kerja remote sebagai developer</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check"></div>
+      <div class="bucket-text">Jalan-jalan ke Jepang</div>
+    </div>
+    <div class="bucket-item">
+      <div class="bucket-check"></div>
+      <div class="bucket-text">Bangun startup lokal di NTB</div>
+    </div>
+  </div>
+
+  <!-- ══ 13. FAKTA UNIK ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Fakta Unik Tentang Berlin</div><div class="l"></div></div>
+  <div class="facts-list">
+    <div class="fact-item">
+      <div class="fact-num">01</div>
+      <div class="fact-text">Paling produktif coding justru di atas jam 11 malam — otak lebih jernih saat dunia sudah tidur.</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">02</div>
+      <div class="fact-text">Bisa main game 6 jam non-stop tapi langsung nge-freeze kalau disuruh presentasi di depan kelas.</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">03</div>
+      <div class="fact-text">Lebih suka baca dokumentasi resmi daripada nonton tutorial YouTube — informasi lebih bersih dan akurat.</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">04</div>
+      <div class="fact-text">Pernah begadang 3 hari berturut-turut menjelang deadline proyek dan justru menghasilkan kode terbaik.</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">05</div>
+      <div class="fact-text">Hafal shortcut keyboard hampir semua aplikasi yang dipakai, tapi sering lupa letak tombol Caps Lock.</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">06</div>
+      <div class="fact-text">Menganggap error merah di terminal bukan masalah, tapi tantangan — dan itu yang bikin coding seru.</div>
+    </div>
+  </div>
+
+  <!-- ══ 14. HARAPAN & MIMPI ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Harapan & Mimpi</div><div class="l"></div></div>
+  <div class="hope-grid">
+    <div class="hope-item">
+      <div class="hope-num">1</div>
+      <div class="hope-text">Menjadi Software Engineer handal yang berkontribusi pada teknologi lokal NTB.</div>
+      <div class="hope-tag">Karir</div>
+    </div>
+    <div class="hope-item">
+      <div class="hope-num">2</div>
+      <div class="hope-text">Membangun startup digital yang membantu UMKM di Lombok untuk go-online.</div>
+      <div class="hope-tag">Bisnis</div>
+    </div>
+    <div class="hope-item">
+      <div class="hope-num">3</div>
+      <div class="hope-text">Menjadi mahasiswa berprestasi dan lulus tepat waktu dengan predikat Cumlaude.</div>
+      <div class="hope-tag">Akademik</div>
+    </div>
+    <div class="hope-item">
+      <div class="hope-num">4</div>
+      <div class="hope-text">Punya komunitas developer lokal yang aktif dan suportif di kota Mataram.</div>
+      <div class="hope-tag">Komunitas</div>
+    </div>
+  </div>
+
+  <!-- ══ 15. KONTAK ══ -->
+ <!-- <div class="sec-divider"><div class="l"></div><div class="sec-label">Kontak & Sosial Media</div><div class="l"></div></div>
+  <div class="contact-row">
+    <div class="contact-cell">
+      <div class="contact-key">Instagram</div>
+      <div class="contact-val">@berlin.dev</div>
+    </div>
+    <div class="contact-cell">
+      <div class="contact-key">GitHub</div>
+      <div class="contact-val">github.com/berlin</div>
+    </div>
+    <div class="contact-cell">
+      <div class="contact-key">Email Kampus</div>
+      <div class="contact-val">berlin@student.unram.ac.id</div>
+    </div>
+  </div>
+  <div class="contact-row" style="margin-top: -1px;">
+    <div class="contact-cell">
+      <div class="contact-key">LinkedIn</div>
+      <div class="contact-val">linkedin.com/in/berlin</div>
+    </div>
+    <div class="contact-cell">
+      <div class="contact-key">Discord</div>
+      <div class="contact-val">berlin#0001</div>
+    </div>
+    <div class="contact-cell">
+      <div class="contact-key">WhatsApp</div>
+      <div class="contact-val">+62 8xx xxxx xxxx</div>
+    </div>
+  </div> -->
+
+  <!-- ══ 16. CITA-CITA & MOTTO ══ -->
+  <div class="sec-divider"><div class="l"></div><div class="sec-label">Cita-cita & Motto</div><div class="l"></div></div>
+  <div class="goal-strip">
+    <div class="goal-label">Cita-cita</div>
+    <div class="goal-text">Menjadi Software Engineer yang berdampak nyata bagi masyarakat NTB dan Indonesia — mulai dari Lombok untuk dunia.</div>
+  </div>
+  <div class="quote-block" style="margin-top: 12px;">
+    <div class="quote-text">"Fortes Fortuna Adiuvat → “Keberuntungan berpihak pada yang berani.”"</div>
+    <div class="quote-attr">— motto hidup</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-id">berlin</div>
+    <div class="stamp">
+      <div class="stamp-top">Lombok</div>
+      <div class="stamp-year">2004</div>
+      <div class="stamp-bot">NTB</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.stat-bar-fill').forEach(el => {
+        el.style.width = el.dataset.pct + '%';
+      });
+    }, 300);
+  });
+</script>
+</body>
+</html>
